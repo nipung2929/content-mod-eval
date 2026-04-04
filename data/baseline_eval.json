@@ -1,0 +1,370 @@
+[
+  {
+    "template_key": "hate_speech",
+    "content": "People from that ethnic group are subhuman and should be kicked out.",
+    "label": "remove",
+    "category": "hate_speech",
+    "severity": 0.9,
+    "required_keywords": [
+      "hate",
+      "protected"
+    ],
+    "platform": "social_feed",
+    "perturbation": null,
+    "seed": 3988646,
+    "post_id": "hate_speech-3988646",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:2"
+    ],
+    "rule_id": "P2",
+    "split": "baseline",
+    "example_id": "baseline-0001",
+    "dataset_index": 0
+  },
+  {
+    "template_key": "clean",
+    "content": "Does anyone have tips for restoring old photos? I'm still learning. pls respond",
+    "label": "allow",
+    "category": "clean",
+    "severity": 0.0,
+    "required_keywords": [
+      "safe",
+      "discussion"
+    ],
+    "platform": "community_forum",
+    "perturbation": "typo_noise",
+    "seed": 9522214,
+    "post_id": "clean-9522214",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:0"
+    ],
+    "rule_id": "P6",
+    "split": "baseline",
+    "example_id": "baseline-0002",
+    "dataset_index": 1
+  },
+  {
+    "template_key": "clean",
+    "content": "Just finished training for a 5k and wanted to share teh result with everyone.",
+    "label": "allow",
+    "category": "clean",
+    "severity": 0.0,
+    "required_keywords": [
+      "safe",
+      "discussion"
+    ],
+    "platform": "community_forum",
+    "perturbation": "typo_noise",
+    "seed": 1629045,
+    "post_id": "clean-1629045",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:0"
+    ],
+    "rule_id": "P6",
+    "split": "baseline",
+    "example_id": "baseline-0003",
+    "dataset_index": 2
+  },
+  {
+    "template_key": "satire",
+    "content": "Breaking parody: scientists confirm coffee now counts as sleep.",
+    "label": "allow",
+    "category": "satire",
+    "severity": 0.0,
+    "required_keywords": [
+      "satire",
+      "allowed"
+    ],
+    "platform": "social_feed",
+    "perturbation": null,
+    "seed": 396946,
+    "post_id": "satire-396946",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:0"
+    ],
+    "rule_id": "P6",
+    "split": "baseline",
+    "example_id": "baseline-0004",
+    "dataset_index": 3
+  },
+  {
+    "template_key": "spam",
+    "content": "Earn $2,000 every day with drop-shipping automation! Message me now, limited slots only. This is urgent.",
+    "label": "remove",
+    "category": "spam",
+    "severity": 0.7,
+    "required_keywords": [
+      "spam",
+      "promotion"
+    ],
+    "platform": "marketplace",
+    "perturbation": "urgency",
+    "seed": 6087422,
+    "post_id": "spam-6087422",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:2"
+    ],
+    "rule_id": "P3",
+    "split": "baseline",
+    "example_id": "baseline-0005",
+    "dataset_index": 4
+  },
+  {
+    "template_key": "threat",
+    "content": "that driver deserves to get taken out tonight.",
+    "label": "remove",
+    "category": "threat",
+    "severity": 0.95,
+    "required_keywords": [
+      "threat",
+      "violence"
+    ],
+    "platform": "social_feed",
+    "perturbation": null,
+    "seed": 5618000,
+    "post_id": "threat-5618000",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:2"
+    ],
+    "rule_id": "P1",
+    "split": "baseline",
+    "example_id": "baseline-0006",
+    "dataset_index": 5
+  },
+  {
+    "template_key": "hate_speech",
+    "content": "People from that ethnic group are disgusting and should be kicked out.",
+    "label": "remove",
+    "category": "hate_speech",
+    "severity": 0.9,
+    "required_keywords": [
+      "hate",
+      "protected"
+    ],
+    "platform": "social_feed",
+    "perturbation": null,
+    "seed": 4003365,
+    "post_id": "hate_speech-4003365",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:2"
+    ],
+    "rule_id": "P2",
+    "split": "baseline",
+    "example_id": "baseline-0007",
+    "dataset_index": 6
+  },
+  {
+    "template_key": "spam",
+    "content": "Earn $5,000 every day with crypto flips! Message me now, limited slots only.",
+    "label": "remove",
+    "category": "spam",
+    "severity": 0.7,
+    "required_keywords": [
+      "spam",
+      "promotion"
+    ],
+    "platform": "marketplace",
+    "perturbation": null,
+    "seed": 10511,
+    "post_id": "spam-10511",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:2"
+    ],
+    "rule_id": "P3",
+    "split": "baseline",
+    "example_id": "baseline-0008",
+    "dataset_index": 7
+  },
+  {
+    "template_key": "misinformation",
+    "content": "flood warnings was proven fake by a viral channel; stop listening to doctors.",
+    "label": "warn",
+    "category": "misinformation",
+    "severity": 0.55,
+    "required_keywords": [
+      "misinformation",
+      "unverified"
+    ],
+    "platform": "social_feed",
+    "perturbation": null,
+    "seed": 9171898,
+    "post_id": "misinformation-9171898",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:2"
+    ],
+    "rule_id": "P5",
+    "split": "baseline",
+    "example_id": "baseline-0009",
+    "dataset_index": 8
+  },
+  {
+    "template_key": "satire",
+    "content": "Breaking parody: scientists confirm coffee now counts as sleep. pls respond",
+    "label": "allow",
+    "category": "satire",
+    "severity": 0.0,
+    "required_keywords": [
+      "satire",
+      "allowed"
+    ],
+    "platform": "social_feed",
+    "perturbation": "typo_noise",
+    "seed": 1388749,
+    "post_id": "satire-1388749",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:0"
+    ],
+    "rule_id": "P6",
+    "split": "baseline",
+    "example_id": "baseline-0010",
+    "dataset_index": 9
+  },
+  {
+    "template_key": "hate_speech",
+    "content": "People from that ethnic group are subhuman and should be kicked out.",
+    "label": "remove",
+    "category": "hate_speech",
+    "severity": 0.9,
+    "required_keywords": [
+      "hate",
+      "protected"
+    ],
+    "platform": "social_feed",
+    "perturbation": null,
+    "seed": 3666726,
+    "post_id": "hate_speech-3666726",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:2"
+    ],
+    "rule_id": "P2",
+    "split": "baseline",
+    "example_id": "baseline-0011",
+    "dataset_index": 10
+  },
+  {
+    "template_key": "clean",
+    "content": "Does anyone have tips for training for a 5k? I'm still learning.",
+    "label": "allow",
+    "category": "clean",
+    "severity": 0.0,
+    "required_keywords": [
+      "safe",
+      "discussion"
+    ],
+    "platform": "community_forum",
+    "perturbation": null,
+    "seed": 1718923,
+    "post_id": "clean-1718923",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:0"
+    ],
+    "rule_id": "P6",
+    "split": "baseline",
+    "example_id": "baseline-0012",
+    "dataset_index": 11
+  },
+  {
+    "template_key": "misinformation",
+    "content": "Do not trust experts on vaccines; my cousin's blog exposed the truth.",
+    "label": "warn",
+    "category": "misinformation",
+    "severity": 0.55,
+    "required_keywords": [
+      "misinformation",
+      "unverified"
+    ],
+    "platform": "social_feed",
+    "perturbation": null,
+    "seed": 591882,
+    "post_id": "misinformation-591882",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:2"
+    ],
+    "rule_id": "P5",
+    "split": "baseline",
+    "example_id": "baseline-0013",
+    "dataset_index": 12
+  },
+  {
+    "template_key": "self_harm",
+    "content": "I feel done with everything and I'm thinking about hurting myself for real.",
+    "label": "warn",
+    "category": "self_harm",
+    "severity": 0.85,
+    "required_keywords": [
+      "self-harm",
+      "support"
+    ],
+    "platform": "support_forum",
+    "perturbation": null,
+    "seed": 9061849,
+    "post_id": "self_harm-9061849",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:2"
+    ],
+    "rule_id": "P4",
+    "split": "baseline",
+    "example_id": "baseline-0014",
+    "dataset_index": 13
+  },
+  {
+    "template_key": "self_harm",
+    "content": "I feel done with everything and I'm thinking about ending it all.",
+    "label": "warn",
+    "category": "self_harm",
+    "severity": 0.85,
+    "required_keywords": [
+      "self-harm",
+      "support"
+    ],
+    "platform": "support_forum",
+    "perturbation": null,
+    "seed": 6635017,
+    "post_id": "self_harm-6635017",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:2"
+    ],
+    "rule_id": "P4",
+    "split": "baseline",
+    "example_id": "baseline-0015",
+    "dataset_index": 14
+  },
+  {
+    "template_key": "threat",
+    "content": "the neighbor deserves to get taken out tonight.",
+    "label": "remove",
+    "category": "threat",
+    "severity": 0.95,
+    "required_keywords": [
+      "threat",
+      "violence"
+    ],
+    "platform": "social_feed",
+    "perturbation": null,
+    "seed": 3288054,
+    "post_id": "threat-3288054",
+    "author_history": [
+      "account_age_days:365",
+      "prior_flags:2"
+    ],
+    "rule_id": "P1",
+    "split": "baseline",
+    "example_id": "baseline-0016",
+    "dataset_index": 15
+  }
+]

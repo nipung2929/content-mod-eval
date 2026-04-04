@@ -1,0 +1,56 @@
+{
+  "version": "2026.04",
+  "splits": {
+    "train": {
+      "size": 420,
+      "category_counts": {
+        "hate_speech": 40,
+        "self_harm": 60,
+        "misinformation": 60,
+        "threat": 41,
+        "satire": 60,
+        "spam": 60,
+        "clean": 60,
+        "reporting_context": 39
+      }
+    },
+    "validation": {
+      "size": 105,
+      "category_counts": {
+        "threat": 12,
+        "spam": 15,
+        "hate_speech": 9,
+        "clean": 15,
+        "self_harm": 15,
+        "misinformation": 15,
+        "reporting_context": 9,
+        "satire": 15
+      }
+    },
+    "baseline": {
+      "size": 16,
+      "category_counts": {
+        "hate_speech": 3,
+        "clean": 3,
+        "satire": 2,
+        "spam": 2,
+        "threat": 2,
+        "misinformation": 2,
+        "self_harm": 2
+      }
+    },
+    "eval": {
+      "size": 84,
+      "category_counts": {
+        "hate_speech": 9,
+        "clean": 12,
+        "satire": 12,
+        "spam": 12,
+        "threat": 5,
+        "misinformation": 12,
+        "self_harm": 12,
+        "reporting_context": 10
+      }
+    }
+  }
+}
