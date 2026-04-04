@@ -203,7 +203,7 @@ uv run openenv validate
 Regenerate the dataset splits if needed:
 
 ```bash
-python -c "import sys; sys.path.insert(0, '/Users/nipun/Documents/Content_Mod/content_mod'); from data.generator import build_dataset_splits; build_dataset_splits()"
+python -m data.build_dataset
 ```
 
 ## Running Locally
