@@ -244,31 +244,6 @@ curl http://localhost:8000/health
 curl http://localhost:8000/schema
 ```
 
-## Hugging Face Spaces Deployment
-
-Authenticate:
-
-```bash
-uv run hf auth login
-```
-
-Push the environment:
-
-```bash
-uv run openenv push
-```
-
-Or specify the Space explicitly:
-
-```bash
-uv run openenv push --repo-id <your-username>/content-mod-env
-```
-
-After deployment, test:
-- `/health`
-- `/docs`
-- `/web`
-
 ## Baseline Inference Script
 
 The project includes [`inference.py`](/Users/nipun/Documents/Content_Mod/content_mod/inference.py), which:
