@@ -70,11 +70,11 @@ The environment accepts a typed `ContentModAction` with the following fields:
 - `decision`
   One of `allow`, `warn`, or `remove`
 - `category`
-  Optional for `easy`, required for `medium`, `hard`, and `eval`
+  Optional for `easy`, required for `medium`, `hard`, `baseline`, and `eval`
 - `cited_rule_id`
-  Optional for `easy` and `medium`, required for `hard` and `eval`
+  Optional for `easy` and `medium`, required for `hard`, `baseline`, and `eval`
 - `justification`
-  Optional for `easy` and `medium`, required for `hard` and `eval`
+  Optional for `easy` and `medium`, required for `hard`, `baseline`, and `eval`
 - `confidence`
   Float in `[0.0, 1.0]`
 
