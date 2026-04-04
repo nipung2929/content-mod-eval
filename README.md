@@ -1,17 +1,6 @@
----
-title: Content Moderation OpenEnv
-emoji: "🛡️"
-colorFrom: gray
-colorTo: yellow
-sdk: docker
-pinned: false
-app_port: 8000
-base_path: /web
-tags:
-  - openenv
----
-
 # Content Moderation OpenEnv
+
+Policy-grounded OpenEnv benchmark for content moderation, designed for deterministic evaluation of agent decisions across simple classification, category prediction, and rule-based reasoning tasks.
 
 ## Overview
 
