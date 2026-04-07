@@ -147,6 +147,10 @@ class ContentModEnvironment(Environment[ModerationAction, ModerationObservation,
             metadata={
                 "episode_id": self._state.episode_id,
                 "total_reward": round(self._state.total_reward, 4),
+                "episode_score": round(
+                    self._state.total_reward / max(1, len(self._queue)),
+                    4,
+                ),
                 "task_requirements": self._task.model_dump(),
             },
         )

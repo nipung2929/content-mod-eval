@@ -1,7 +1,67 @@
 spec_version: 1
 name: content_mod
+version: "0.1.0"
 type: space
 runtime: fastapi
 app: server.app:app
 port: 8000
 description: Moderation queue environment with task progression from binary decisions to policy-grounded reasoning.
+author: nipung2929
+tags:
+  - openenv
+  - moderation
+  - safety
+  - real-world
+observation_space:
+  type: object
+  description: Typed moderation observation containing the current post, task instructions, policy, and previous-step feedback.
+action_space:
+  type: object
+  description: Typed moderation action with decision, optional category, optional cited rule, justification, and confidence.
+tasks:
+  - id: easy
+    name: Easy Moderation Decisions
+    difficulty: easy
+    description: Decide whether each post should be allowed, warned, or removed.
+    max_steps: 4
+    success_threshold: 0.95
+    grader: deterministic
+  - id: medium
+    name: Moderation With Categories
+    difficulty: medium
+    description: Predict the moderation decision and best matching policy category.
+    max_steps: 6
+    success_threshold: 0.75
+    grader: deterministic
+  - id: hard
+    name: Policy-Grounded Moderation
+    difficulty: hard
+    description: Predict the moderation decision, category, cited rule, and justification.
+    max_steps: 8
+    success_threshold: 0.65
+    grader: deterministic
+  - id: baseline
+    name: Baseline Split
+    difficulty: baseline
+    description: Run the smaller fixed baseline evaluation split with full policy reasoning.
+    max_steps: 16
+    success_threshold: 0.6
+    grader: deterministic
+  - id: eval
+    name: Full Evaluation Split
+    difficulty: eval
+    description: Run the fixed full evaluation split with deterministic grading.
+    max_steps: 84
+    success_threshold: 0.6
+    grader: deterministic
+reward:
+  type: shaped
+  range: [0.0, 1.0]
+  description: Partial credit for correct moderation decision, category, cited rule, and justification keyword coverage with penalties for overconfident wrong labels.
+endpoints:
+  reset: POST /reset
+  step: POST /step
+  state: GET /state
+  tasks: GET /tasks
+  grade: GET /grade/{task_name}
+  validate: GET /validate

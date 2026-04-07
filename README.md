@@ -26,7 +26,7 @@ The environment is designed to go beyond toy keyword matching by including conte
 
 ## Tasks
 
-The environment currently supports four modes:
+The environment currently supports five modes:
 
 ### `easy`
 
@@ -62,6 +62,11 @@ This is the smaller fixed baseline split used by the default inference script fo
 ### `eval`
 
 This is the fixed deterministic evaluation split used for reproducible baseline runs.
+
+The environment also exposes task discovery and deterministic grader endpoints for validator compatibility:
+- `GET /tasks`
+- `GET /grade/{task_name}`
+- `GET /validate`
 
 ## Action Space
 
@@ -119,19 +124,19 @@ The environment uses a deterministic synthetic dataset generation pipeline.
 
 ### Components
 
-- [`templates.py`](/Users/nipun/Documents/Content_Mod/content_mod/data/templates.py)
+- [`templates.py`](/Users/nipun/Desktop/Content_mod/content-mod-eval/data/templates.py)
   Base moderation scenarios such as spam, threats, hate speech, misinformation, self-harm, satire, and clean content
-- [`perturbations.py`](/Users/nipun/Documents/Content_Mod/content_mod/data/perturbations.py)
+- [`perturbations.py`](/Users/nipun/Desktop/Content_mod/content-mod-eval/data/perturbations.py)
   Controlled mutations such as typo noise, urgency framing, and reporting-context label flips
-- [`generator.py`](/Users/nipun/Documents/Content_Mod/content_mod/data/generator.py)
+- [`generator.py`](/Users/nipun/Desktop/Content_mod/content-mod-eval/data/generator.py)
   Seeded generation of posts, episodes, and deterministic dataset splits
 
 ### Dataset Files
 
-- [`train.jsonl`](/Users/nipun/Documents/Content_Mod/content_mod/data/train.jsonl)
-- [`validation.jsonl`](/Users/nipun/Documents/Content_Mod/content_mod/data/validation.jsonl)
-- [`golden_eval.json`](/Users/nipun/Documents/Content_Mod/content_mod/data/golden_eval.json)
-- [`dataset_manifest.json`](/Users/nipun/Documents/Content_Mod/content_mod/data/dataset_manifest.json)
+- [`train.jsonl`](/Users/nipun/Desktop/Content_mod/content-mod-eval/data/train.jsonl)
+- [`validation.jsonl`](/Users/nipun/Desktop/Content_mod/content-mod-eval/data/validation.jsonl)
+- [`golden_eval.json`](/Users/nipun/Desktop/Content_mod/content-mod-eval/data/golden_eval.json)
+- [`dataset_manifest.json`](/Users/nipun/Desktop/Content_mod/content-mod-eval/data/dataset_manifest.json)
 
 Each example includes:
 - content
@@ -162,8 +167,9 @@ Reward combines:
 - justification keyword coverage
 
 Wrong decisions block most downstream credit. Overconfident wrong answers may incur a small penalty.
+Episode-level normalized scores exposed by the validator-facing endpoints are also clamped to the `[0.0, 1.0]` range.
 
-The reward function is implemented in [`grader.py`](/Users/nipun/Documents/Content_Mod/content_mod/env/grader.py).
+The reward function is implemented in [`grader.py`](/Users/nipun/Desktop/Content_mod/content-mod-eval/env/grader.py).
 
 ## Environment Architecture
 
@@ -171,11 +177,11 @@ The environment is split into three layers:
 
 ### Data layer
 
-Files in [`data/`](/Users/nipun/Documents/Content_Mod/content_mod/data) generate deterministic moderation examples and dataset splits.
+Files in [`data/`](/Users/nipun/Desktop/Content_mod/content-mod-eval/data) generate deterministic moderation examples and dataset splits.
 
 ### Environment layer
 
-Files in [`env/`](/Users/nipun/Documents/Content_Mod/content_mod/env) define:
+Files in [`env/`](/Users/nipun/Desktop/Content_mod/content-mod-eval/env) define:
 - typed models
 - task configuration
 - reward grading
@@ -184,7 +190,7 @@ Files in [`env/`](/Users/nipun/Documents/Content_Mod/content_mod/env) define:
 
 ### Serving layer
 
-Files in [`server/`](/Users/nipun/Documents/Content_Mod/content_mod/server) expose the environment through OpenEnv’s FastAPI/WebSocket server wrapper.
+Files in [`server/`](/Users/nipun/Desktop/Content_mod/content-mod-eval/server) expose the environment through OpenEnv’s FastAPI/WebSocket server wrapper, including the validator-facing `tasks`, `grade`, and `validate` routes.
 
 ## Setup
 
@@ -200,6 +206,13 @@ Validate the environment:
 uv run openenv validate
 ```
 
+Check the task and grader metadata:
+
+```bash
+curl http://localhost:8000/tasks
+curl http://localhost:8000/validate
+```
+
 Regenerate the dataset splits if needed:
 
 ```bash
@@ -211,7 +224,7 @@ python -m data.build_dataset
 Start the server:
 
 ```bash
-uv run --project . server
+uv run python -m server.app
 ```
 
 In another terminal, run inference:
@@ -246,13 +259,13 @@ curl http://localhost:8000/schema
 
 ## Baseline Inference Script
 
-The project includes [`inference.py`](/Users/nipun/Documents/Content_Mod/content_mod/inference.py), which:
+The project includes [`inference.py`](/Users/nipun/Desktop/Content_mod/content-mod-eval/inference.py), which:
 - uses the OpenAI client for model calls
 - runs the deterministic `baseline` task
 - emits `[START]`, `[STEP]`, and `[END]` logs in the required stdout format
 - supports either a local running server or a local Docker image
 
-Required runtime variables are documented in [`/.env.example`](/Users/nipun/Documents/Content_Mod/content_mod/.env.example).
+Required runtime variables are documented in [`.env.example`](/Users/nipun/Desktop/Content_mod/content-mod-eval/.env.example).
 
 ## Baseline Scores
 
