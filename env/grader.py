@@ -39,17 +39,19 @@ def grade_action(
     rule_correct = action.cited_rule_id == expected_rule_id if task.require_rule_id else False
     keyword_hits = _keyword_hits(action.justification, required_keywords)
 
-    reward = 0.0
+    # Keep rewards strictly inside (0, 1) for valid actions so task-level
+    # aggregate scores never saturate at the boundaries.
+    reward = 0.05
     penalties: list[str] = []
 
     if label_correct:
-        reward += 1.0 if not task.require_category and not task.require_justification else 0.4
+        reward += 0.9 if not task.require_category and not task.require_justification else 0.35
     elif action.confidence > 0.85:
         penalties.append("overconfident_wrong_label")
 
     if task.require_category and label_correct:
         if category_correct:
-            reward += 0.4 if not task.require_justification else 0.25
+            reward += 0.45 if not task.require_justification else 0.25
         elif action.category is None:
             penalties.append("missing_category")
 
@@ -66,9 +68,9 @@ def grade_action(
             penalties.append("missing_justification")
 
     if action.confidence > 0.95 and not label_correct:
-        reward = max(0.0, reward - 0.1)
+        reward = max(0.01, reward - 0.04)
 
-    reward = max(0.0, min(1.0, reward))
+    reward = max(0.01, min(0.95, reward))
 
     return GradeResult(
         reward=reward,

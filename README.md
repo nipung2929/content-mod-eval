@@ -155,8 +155,9 @@ Rewards are deterministic and depend on task difficulty.
 
 ### Easy
 
-- reward `1.0` for correct decision
-- reward `0.0` otherwise
+- reward is shaped but bounded strictly inside `(0, 1)` for valid actions
+- correct decisions earn high credit without saturating at `1.0`
+- incorrect but schema-valid actions receive minimal credit rather than a hard `0.0`
 
 ### Medium / Hard / Eval
 
@@ -166,8 +167,7 @@ Reward combines:
 - cited rule correctness
 - justification keyword coverage
 
-Wrong decisions block most downstream credit. Overconfident wrong answers may incur a small penalty.
-Episode-level normalized scores exposed by the validator-facing endpoints are also clamped to the `[0.0, 1.0]` range.
+The reward design intentionally avoids exact `0.0` and `1.0` for valid actions so task-level scores remain informative and non-saturated. Overconfident wrong answers still incur a penalty and are pushed close to zero.
 
 The reward function is implemented in [`grader.py`](/Users/nipun/Desktop/Content_mod/content-mod-eval/env/grader.py).
 
