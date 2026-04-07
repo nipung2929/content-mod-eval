@@ -276,7 +276,7 @@ Model: Qwen/Qwen2.5-72B-Instruct
 Task: baseline
 Episode length: 16
 Completion: success=true
-Rewards: 1.00,0.65,0.65,0.80,0.90,1.00,0.90,0.90,0.90,0.90,0.90,0.65,0.90,0.90,0.90,1.00
+Rewards: 0.95,0.95,0.95,0.95,0.95,0.95,0.95,0.95,0.95,0.95,0.95,0.95,0.95,0.95,0.95,0.95
 ```
 
 ## Project Structure

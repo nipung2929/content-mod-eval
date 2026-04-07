@@ -29,16 +29,28 @@ from content_mod import ContentModAction, ContentModEnv
 
 
 LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME")
-API_KEY = os.getenv("HF_TOKEN") or os.getenv("OPENAI_API_KEY") or os.getenv("API_KEY")
+HF_TOKEN = os.getenv("HF_TOKEN")
 API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
 MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
 CONTENT_MOD_BASE_URL = os.getenv("CONTENT_MOD_BASE_URL", "http://localhost:8000")
-TASK_NAME = "baseline"
 BENCHMARK = "content_mod"
 MAX_STEPS = 128
 TEMPERATURE = 0.2
 MAX_TOKENS = 250
 SUCCESS_SCORE_THRESHOLD = 0.6
+TASK_RUNS = [
+    ("easy_001", "easy", 11),
+    ("easy_002", "easy", 12),
+    ("easy_003", "easy", 13),
+    ("medium_001", "medium", 21),
+    ("medium_002", "medium", 22),
+    ("medium_003", "medium", 23),
+    ("hard_001", "hard", 31),
+    ("hard_002", "hard", 32),
+]
+
+if HF_TOKEN is None:
+    raise ValueError("HF_TOKEN environment variable is required")
 
 SYSTEM_PROMPT = textwrap.dedent(
     """
@@ -101,10 +113,10 @@ def log_step(
     )
 
 
-def log_end(success: bool, steps: int, rewards: List[float]) -> None:
+def log_end(success: bool, steps: int, score: float, rewards: List[float]) -> None:
     rewards_str = ",".join(f"{reward:.2f}" for reward in rewards)
     print(
-        f"[END] success={str(success).lower()} steps={steps} rewards={rewards_str}",
+        f"[END] success={str(success).lower()} steps={steps} score={score:.2f} rewards={rewards_str}",
         flush=True,
     )
 
@@ -239,19 +251,23 @@ async def create_env() -> ContentModEnv:
     return env
 
 
-async def main() -> None:
-    client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
-    env = await create_env()
-
+async def run_episode(
+    env: ContentModEnv,
+    client: OpenAI,
+    task_label: str,
+    task_name: str,
+    seed: int,
+) -> float:
     history: List[str] = []
     rewards: List[float] = []
     steps_taken = 0
     success = False
+    score = 0.0
 
-    log_start(task=TASK_NAME, env=BENCHMARK, model=MODEL_NAME)
+    log_start(task=task_label, env=BENCHMARK, model=MODEL_NAME)
 
     try:
-        result = await env.reset(task=TASK_NAME, seed=42)
+        result = await env.reset(task=task_name, seed=seed)
         expected_steps = result.observation.queue_remaining + 1
         max_steps = max(MAX_STEPS, expected_steps)
 
@@ -266,7 +282,7 @@ async def main() -> None:
                 result = await env.step(action)
             except Exception as exc:
                 action_error = str(exc)
-                result = await env.step(fallback_action(TASK_NAME))
+                result = await env.step(fallback_action(task_name))
 
             reward = float(result.reward or 0.0)
             done = result.done
@@ -291,15 +307,41 @@ async def main() -> None:
 
         total_reward = sum(rewards)
         denom = max(1, len(rewards))
-        normalized_score = max(0.0, min(1.0, total_reward / denom))
-        success = normalized_score >= SUCCESS_SCORE_THRESHOLD
+        score = max(0.0, min(1.0, total_reward / denom))
+        success = score >= SUCCESS_SCORE_THRESHOLD
 
+    finally:
+        log_end(success=success, steps=steps_taken, score=score, rewards=rewards)
+
+    return score
+
+
+async def main() -> None:
+    client = OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN)
+    env = await create_env()
+    scores: List[tuple[str, float]] = []
+
+    try:
+        for task_label, task_name, seed in TASK_RUNS:
+            score = await run_episode(
+                env=env,
+                client=client,
+                task_label=task_label,
+                task_name=task_name,
+                seed=seed,
+            )
+            scores.append((task_label, score))
     finally:
         try:
             await env.close()
         except Exception:
             pass
-        log_end(success=success, steps=steps_taken, rewards=rewards)
+
+    print("=== BASELINE SCORES ===", flush=True)
+    for task_label, score in scores:
+        print(f"{task_label}: {score:.2f}", flush=True)
+    average = sum(score for _, score in scores) / max(1, len(scores))
+    print(f"Average: {average:.2f}", flush=True)
 
 
 if __name__ == "__main__":
